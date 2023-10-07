@@ -24,7 +24,7 @@ require(["esri/config", "esri/Map", "esri/views/MapView"], function createMap(es
     const view = new MapView({
          map: map,
          center: [-79.418660, 43.678352], // Longitude, latitude
-        zoom: 7, // Zoom level
+        zoom: 5, // Zoom level
         container: "photoDiv" // Div element
          });
         });
@@ -41,7 +41,7 @@ function uploadImage() {
     })
     .then(response => response.json())
     .then(data => {
-        
+        document.getElementById('result').textContent = `Latitude: ${data.latitude}, Longitude: ${data.longitude}`;
     })
     .catch(error => {
         console.error('Error:', error);
