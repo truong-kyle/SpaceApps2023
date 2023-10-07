@@ -1,4 +1,5 @@
 let lon, lat;
+let table;
 
 //Load photo preview to website
 document
@@ -40,6 +41,8 @@ require([
     zoom: 5, // Zoom level
     container: "photoDiv", // Div element
   });
+
+  
 });
 
 //Upload image to retrieve data
@@ -73,6 +76,7 @@ function uploadImage() {
     })
     .catch((error) => {
       console.error("Error:", error);
+      document.getElementById("result").textContent = 'No geotag data found';
     });
 }
 
