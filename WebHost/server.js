@@ -5,13 +5,14 @@ const exif = require('exif').ExifImage;
 const app = express();
 const port = 3000;
 
-let lat, lon;
+let lat, lon; // Location to be grabbed by EXIF
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-app.use(express.static('public'));
 
+app.use(express.static('public'));
+//
 app.post('/upload', upload.single('photo'), (req, res) => {
     try {
         new exif({ image: req.file.buffer }, function (error, exifData) {
