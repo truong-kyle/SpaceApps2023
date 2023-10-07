@@ -11,6 +11,6 @@ To be documented
 1. Run command `node server.js` inside command line
 2. Open server (localhost:3000) and upload photo
 3. Press Upload and Get Location
-4. Photo will return Longitude and Lattitude and Add point to Map
+4. Photo will return Longitude and Lattitude and add point to Map
 ### Todo:
 * Add pins to ArcGIS
