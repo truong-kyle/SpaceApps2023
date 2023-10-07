@@ -1,5 +1,6 @@
 let lon, lat;
 
+//Load photo preview to website
 document.getElementById('imageInput').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if (file) {
@@ -16,7 +17,7 @@ document.getElementById('imageInput').addEventListener('change', function(event)
 });
 
 require(["esri/config", "esri/Map", "esri/views/MapView"], function createMap(esriConfig, Map, MapView) {
-    esriConfig.apiKey = "AAPK101c1da92fd04726bf5ae7fe970498b6o2firELRrWuWVf5OCBzJI44u30pM0xMFryOb_l3GvIvA71cneC1K7xHM275jrvhh";
+    esriConfig.apiKey = "AAPK101c1da92fd04726bf5ae7fe970498b6o2firELRrWuWVf5OCBzJI44u30pM0xMFryOb_l3GvIvA71cneC1K7xHM275jrvhh"; //Personal ArcGIS API Key
 
     const map = new Map({
         basemap: "arcgis-topographic" // Basemap layer service
@@ -29,12 +30,14 @@ require(["esri/config", "esri/Map", "esri/views/MapView"], function createMap(es
          });
         });
 
+//Upload image to retrieve data
 function uploadImage() {
     const formData = new FormData();
     const imageInput = document.getElementById('imageInput');
 
     formData.append('photo', imageInput.files[0]);
 
+    // Read information from server.js, print coordinates to text.
     fetch('/upload', {
         method: 'POST',
         body: formData
