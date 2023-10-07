@@ -13,6 +13,6 @@ To be documented
 3. Press "Upload and Get Location"
 4. Photo will return longitude and lattitude and add point to map
 ### Todo:
-* ~~Add pins to ArcGIS~~
+* Add pins to ArcGIS
 * Finish WebAlerts
 * 
