@@ -5,6 +5,8 @@ const exif = require('exif').ExifImage;
 const app = express();
 const port = 3000;
 
+let lat, lon;
+
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -18,13 +20,17 @@ app.post('/upload', upload.single('photo'), (req, res) => {
             } else {
                 const gps = exifData.gps;
                 if (gps.GPSLatitude && gps.GPSLongitude) {
-                    var lat = gps.GPSLatitude[0] + gps.GPSLatitude[1]/60 + gps.GPSLatitude[2]/3600;
-                    var lon = gps.GPSLongitude[0] + gps.GPSLongitude[1]/60 + gps.GPSLongitude[2]/3600;
+                    let lat = gps.GPSLatitude[0] + gps.GPSLatitude[1]/60 + gps.GPSLatitude[2]/3600;
+                    let lon = gps.GPSLongitude[0] + gps.GPSLongitude[1]/60 + gps.GPSLongitude[2]/3600;
 
                     if (gps.GPSLatitudeRef == "S") lat = -lat;
                     if (gps.GPSLongitudeRef == "W") lon = -lon;
 
                     res.json({ latitude: lat, longitude: lon });
+
+                    console.log(lat);
+                    console.log(lon);
+                    
                 } else {
                     res.send('No geotag data found.');
                 }

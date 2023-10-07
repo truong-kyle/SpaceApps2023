@@ -16,6 +16,7 @@ document.getElementById('imageInput').addEventListener('change', function(event)
 function uploadImage() {
     const formData = new FormData();
     const imageInput = document.getElementById('imageInput');
+
     formData.append('photo', imageInput.files[0]);
 
     fetch('/upload', {
