@@ -1,7 +1,10 @@
-let lon, lat;
-let fireData;
-let fireTable;
-
+let photoLon,
+  photoLat,
+  csvVariable,
+  fireVar = 0,
+  locArray;
+const csvLink =
+  "https://firms.modaps.eosdis.nasa.gov/mapserver/wfs/Canada/38d8ba6269c446d2bf9389a265fdd8cb/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAME=ms:fires_modis_7days&STARTINDEX=0&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&BBOX=-90,-180,90,180,urn:ogc:def:crs:EPSG::4326&outputformat=csv";
 //Load photo preview to website
 document
   .getElementById("imageInput")
@@ -25,8 +28,6 @@ require([
   "esri/Map",
   "esri/views/MapView",
   "esri/WebMap",
-  "esri/layers/CSVLayer",
-  "esri/widgets/FeatureTable",
 ], function createMap(
   esriConfig,
   Map,
@@ -38,16 +39,16 @@ require([
   esriConfig.apiKey =
     "AAPK101c1da92fd04726bf5ae7fe970498b6o2firELRrWuWVf5OCBzJI44u30pM0xMFryOb_l3GvIvA71cneC1K7xHM275jrvhh"; //Personal ArcGIS API Key
 
-  // const map = new WebMap({
-  //   portalItem: {
-  //     // id for webmap
-  //     id: "b7f7248553d84c37b8c823eff8562407",
-  //   },
-  // });
-
-  const map = new Map({
-    basemap: "arcgis-topographic",
+  const map = new WebMap({
+    portalItem: {
+      // id for webmap
+      id: "b7f7248553d84c37b8c823eff8562407",
+    },
   });
+
+  // const map = new Map({
+  //   basemap: "arcgis-topographic",
+  // });
 
   const view = new MapView({
     map: map,
@@ -55,40 +56,41 @@ require([
     zoom: 5, // Zoom level
     container: "photoDiv",
   });
-
-  fireData = new CSVLayer({
-    url: "https://firms.modaps.eosdis.nasa.gov/mapserver/wfs/Canada/38d8ba6269c446d2bf9389a265fdd8cb/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAME=ms:fires_modis_7days&STARTINDEX=0&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&BBOX=-90,-180,90,180,urn:ogc:def:crs:EPSG::4326&outputformat=csv",
-    copyright: "NASA FIRMS",
-  });
-  map.add(fireData);
-
-  fireTable = new FeatureTable({
-    view: view,
-    layer: fireData,
-    highlightOnRowSelectEnabled: false,
-    fieldConfigs: [
-      {
-        name: "longitude",
-        label: "Longitude",
-      },
-      {
-        name: "latitude",
-        label: "Latitude",
-      },
-    ],
-    container: document.getElementById("tableDiv"),
-    
-    // visible: false
-  });
-
-
 });
 
-  
 function getcoords() {
-  console.log(lon);
-  console.log(lat);
-  console.log(fireData.FeatureTable(isTable())) ;
+  console.log(photoLon);
+  console.log(photoLat);
+  let dataLat, dataLon;
+  fetch(csvLink)
+    .then((response) => response.text())
+    .then((csvData) => {
+      // Parse the CSV data
+      const rows = csvData.split("\n");
+      const headers = rows[0].split(",");
+      const data = rows.slice(1).map((row) => {
+        const values = row.split(",");
+        return headers.reduce((obj, header, index) => {
+          obj[header] = values[index];
+          return obj;
+        }, {});
+      });
+      // Store the data in a variable for manipulation
+      for (let i = 0; i < data.length; i++) {
+        let item = data[i];
+        dataLat = parseFloat(item.latitude);
+        dataLon = parseFloat(item.longitude);
+        if (
+          Math.abs(dataLat - photoLat) <= 0.1 &&
+          Math.abs(dataLon - photoLon) <= 0.1
+        ) {
+          locArray = `Fire Warning Detected at: ${dataLat}, ${dataLon}`
+          console.log(locArray);
+          break;
+        }
+        locArray = null;
+      }
+    });
 }
 
 //Upload image to retrieve data
@@ -105,11 +107,9 @@ function uploadImage() {
   })
     .then((response) => response.json())
     .then((data) => {
-      document.getElementById(
-        "result"
-      ).textContent = `Latitude: ${data.latitude}, Longitude: ${data.longitude}`;
-      lon = data.longitude;
-      lat = data.latitude;
+      document.getElementById("result").textContent = "Geotag data stored";
+      photoLon = data.longitude;
+      photoLat = data.latitude;
       getcoords();
     })
     .catch((error) => {
@@ -117,3 +117,14 @@ function uploadImage() {
       document.getElementById("result").textContent = "No geotag data found";
     });
 }
+
+function checkFire(){
+  console.log("Checking for Updates...")
+  if(locArray){
+    document.getElementById("result2").textContent = locArray;
+  }
+  else{
+    document.getElementById("result2").textContent = "No Fire Warning Detected"
+  }
+}
+let intervalID = setInterval(checkFire, 5000);
