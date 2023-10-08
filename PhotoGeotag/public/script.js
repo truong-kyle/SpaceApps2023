@@ -3,7 +3,8 @@ let photoLon,
   csvVariable,
   fireVar = 0,
   locArray,
-  randInt;
+  randInt,
+  view;
 const csvLink =
   "https://firms.modaps.eosdis.nasa.gov/mapserver/wfs/Canada/38d8ba6269c446d2bf9389a265fdd8cb/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAME=ms:fires_modis_7days&STARTINDEX=0&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&BBOX=-90,-180,90,180,urn:ogc:def:crs:EPSG::4326&outputformat=csv";
 //Load photo preview to website
@@ -24,7 +25,7 @@ document
     }
   });
 
-require([
+let FireMap = require([
   "esri/config",
   "esri/Map",
   "esri/views/MapView",
@@ -51,7 +52,7 @@ require([
   //   basemap: "arcgis-topographic",
   // });
 
-  const view = new MapView({
+  view = new MapView({
     map: map,
     center: [-79.41866, 43.678352], // Longitude, latitude
     zoom: 5, // Zoom level
@@ -87,6 +88,10 @@ function getcoords() {
         ) {
           locArray = `Fire Warning Detected at: ${dataLat}, ${dataLon}`
           console.log(locArray);
+          view.goTo({
+            center: [dataLon, dataLat],
+            zoom: 13
+          });
           break;
         }
         locArray = null;
