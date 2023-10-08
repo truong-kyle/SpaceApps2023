@@ -2,7 +2,8 @@ let photoLon,
   photoLat,
   csvVariable,
   fireVar = 0,
-  locArray;
+  locArray,
+  randInt;
 const csvLink =
   "https://firms.modaps.eosdis.nasa.gov/mapserver/wfs/Canada/38d8ba6269c446d2bf9389a265fdd8cb/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAME=ms:fires_modis_7days&STARTINDEX=0&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&BBOX=-90,-180,90,180,urn:ogc:def:crs:EPSG::4326&outputformat=csv";
 //Load photo preview to website
@@ -81,8 +82,8 @@ function getcoords() {
         dataLat = parseFloat(item.latitude);
         dataLon = parseFloat(item.longitude);
         if (
-          Math.abs(dataLat - photoLat) <= 0.1 &&
-          Math.abs(dataLon - photoLon) <= 0.1
+          Math.abs(dataLat - photoLat) < 0.2 &&
+          Math.abs(dataLon - photoLon) < 0.2
         ) {
           locArray = `Fire Warning Detected at: ${dataLat}, ${dataLon}`
           console.log(locArray);
@@ -97,6 +98,7 @@ function getcoords() {
 function uploadImage() {
   const formData = new FormData();
   const imageInput = document.getElementById("imageInput");
+  randInt = Math.floor(Math.random()*11)
 
   formData.append("photo", imageInput.files[0]);
 
@@ -107,7 +109,7 @@ function uploadImage() {
   })
     .then((response) => response.json())
     .then((data) => {
-      document.getElementById("result").textContent = "Geotag data stored";
+      document.getElementById("result").textContent = `${randInt}: Geotag data stored`;
       photoLon = data.longitude;
       photoLat = data.latitude;
       getcoords();
