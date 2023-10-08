@@ -1,1 +1,0 @@
-print("Mishal is Cool!!")
