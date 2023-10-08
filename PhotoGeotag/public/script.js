@@ -134,4 +134,4 @@ function checkFire(){
     document.getElementById("result2").textContent = "No Fire Warning Detected"
   }
 }
-let intervalID = setInterval(checkFire, 5000);
+let intervalID = setInterval(checkFire, 2000);
