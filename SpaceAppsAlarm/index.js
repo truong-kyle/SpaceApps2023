@@ -1,13 +1,8 @@
 const { SerialPort } = require('serialport');
+var http = require('http');
+var fs = require('fs');
+var index = fs.readFileSync('index.html');
 
-const config = {
-    path: 'COM3',
-    baudRate: 9600,
-    dataBits: 8,
-    parity: 'none',
-    stopBits: 1,
-    flowControl: false,
-};
 
 const port = new SerialPort({
     path: 'COM3',
@@ -18,16 +13,23 @@ const port = new SerialPort({
     flowControl: false,
 });
 
-port.open((err) => {
+port.open((err) => {});
 
-    if(err){
-        console.log("Error opening the port" + err.messages);
-    }
-    
-});
+setTimeout(function(){
 
-port.on('data', (data) => {
+    port.write("1");
 
-    console.log(data.toString());
+}, 3000);
+
+var app = http.createServer(function(req, res){
+   
+    res.writeHead(404, { 'Content-Type': 'index.html' });
+    res.end(index);
 
 })
+
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});
+
+
