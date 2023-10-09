@@ -9,9 +9,19 @@ const config = {
     flowControl: false,
 };
 
+const port = new SerialPort({
+    path: 'COM3',
+    baudRate: 9600,
+    dataBits: 8,
+    parity: 'none',
+    stopBits: 1,
+    flowControl: false,
+});
+
+
 
 port.on('data', (data) => {
 
-    console.log(data.toString() + '\n');
+    console.log(data.toString() + '\n);
 
 })
