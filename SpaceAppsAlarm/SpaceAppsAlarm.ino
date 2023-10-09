@@ -2,16 +2,22 @@
 void setup() {
   Serial.begin( 9600 );
   pinMode(11, OUTPUT);
+  pinMode(2, INPUT);
 }
 
 void loop() {
-
-if(Serial.available() > 0){
-    digitalWrite(11, HIGH);
-    delay(1000);
-    digitalWrite(11, LOW);
-    delay(1000);
+    
+    if(digitalRead(2) == HIGH){
+      Serial.println("FIREEE");
+      digitalWrite(11, HIGH);
+      delay(500);
+      digitalWrite(11, LOW);
+      delay(500);
+    }
+    else{
+      Serial.println("No Heat");
+      delay(500);
+    }
 }
+  
 
-
-}
