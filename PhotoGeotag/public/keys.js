@@ -1,0 +1,2 @@
+const gisAPI = "AAPK101c1da92fd04726bf5ae7fe970498b6o2firELRrWuWVf5OCBzJI44u30pM0xMFryOb_l3GvIvA71cneC1K7xHM275jrvhh";
+const firmsAPI = "https://firms.modaps.eosdis.nasa.gov/mapserver/wfs/Canada/38d8ba6269c446d2bf9389a265fdd8cb/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAME=ms:fires_modis_7days&STARTINDEX=0&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&BBOX=-90,-180,90,180,urn:ogc:def:crs:EPSG::4326&outputformat=csv";
