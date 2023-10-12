@@ -32,8 +32,8 @@ app.post('/upload', upload.single('photo'), (req, res) => {
                     //Return values to HTML page and store them in the console.log
                     res.json({ latitude: lat, longitude: lon });
 
-                    console.log(lat);
-                    console.log(lon);
+                        console.log(lat);
+                        console.log(lon);
                     
                 } 
                 else {

@@ -3,10 +3,8 @@ let photoLon,
   csvVariable,
   fireVar = 0,
   locArray,
-  randInt,
-  view;
-const csvLink =
-  firmsAPI;
+  randInt;
+
 //Load photo preview to website
 document
   .getElementById("imageInput")
@@ -64,7 +62,7 @@ function getcoords() {
   console.log(photoLon);
   console.log(photoLat);
   let dataLat, dataLon;
-  fetch(csvLink)
+  fetch(firmsAPI)
     .then((response) => response.text())
     .then((csvData) => {
       // Parse the CSV data
