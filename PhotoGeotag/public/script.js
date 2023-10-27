@@ -30,11 +30,8 @@ let FireMap = require([
   "esri/WebMap", 
 ], function createMap(
   esriConfig,
-  Map,
   MapView,
   WebMap,
-  CSVLayer,
-  FeatureTable
 ) {
   esriConfig.apiKey =
   gisAPI;

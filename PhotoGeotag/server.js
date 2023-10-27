@@ -1,5 +1,3 @@
-
-
 const express = require('express');
 const multer = require('multer');
 const exif = require('exif').ExifImage;
