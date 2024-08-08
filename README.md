@@ -1,4 +1,5 @@
 # SpaceApps2023
+## <a href="https://github.com/truong-kyle/PhotoGeoV2">**UPDATE: THIS BRANCH IS OUTDATED AND IS BROKEN. PLEASE CLICK HERE TO VIEW THE UPDATED PROJECT.</a> 
 Team SpaceNinja's repository for the Toronto 2023 SpaceApps Challenge
 
 ### Team Members
